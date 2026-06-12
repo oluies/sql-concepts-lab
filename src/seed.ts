@@ -1,0 +1,66 @@
+// Sample dataset: a small trading book.
+// Deliberate gaps for the join and NULL lessons:
+//  - trader David Ek (6) has no trades
+//  - instrument EIB FRN 2031 has never traded
+//  - trades 117 and 118 have NULL price (pending confirmation)
+export const SEED: string[] = [
+  `CREATE OR REPLACE TABLE traders (
+  trader_id  INTEGER PRIMARY KEY,
+  name       VARCHAR,
+  desk       VARCHAR,
+  hired_date DATE
+)`,
+  `INSERT INTO traders VALUES
+ (1,'Anna Lindqvist','Rates',   DATE '2018-03-12'),
+ (2,'Johan Berg',    'Equities',DATE '2020-09-01'),
+ (3,'Maria Svensson','FX',      DATE '2016-06-20'),
+ (4,'Erik Holm',     'Equities',DATE '2022-01-10'),
+ (5,'Sara Nilsson',  'Rates',   DATE '2021-11-15'),
+ (6,'David Ek',      'Credit',  DATE '2019-05-02')`,
+  `CREATE OR REPLACE TABLE instruments (
+  isin        VARCHAR PRIMARY KEY,
+  name        VARCHAR,
+  asset_class VARCHAR,
+  currency    VARCHAR
+)`,
+  `INSERT INTO instruments VALUES
+ ('SE0000108656','Ericsson B',     'Equity','SEK'),
+ ('SE0000242455','Swedbank A',     'Equity','SEK'),
+ ('SE0009554454','Volvo Car B',    'Equity','SEK'),
+ ('US0378331005','Apple Inc',      'Equity','USD'),
+ ('SE0017832488','SGB 1062 0.75%', 'Bond',  'SEK'),
+ ('DE0001102580','Bund 2.6% 2034', 'Bond',  'EUR'),
+ ('XS2691573128','EIB FRN 2031',   'Bond',  'EUR')`,
+  `CREATE OR REPLACE TABLE trades (
+  trade_id  INTEGER PRIMARY KEY,
+  trader_id INTEGER,
+  isin      VARCHAR,
+  side      VARCHAR,        -- BUY / SELL
+  quantity  INTEGER,
+  price     DECIMAL(12,4),  -- NULL while pending confirmation
+  traded_at TIMESTAMP
+)`,
+  `INSERT INTO trades VALUES
+ (101,1,'SE0017832488','BUY', 5000000, 98.4210, TIMESTAMP '2026-06-08 09:03:11'),
+ (102,1,'DE0001102580','BUY', 2000000,101.1300, TIMESTAMP '2026-06-08 09:41:52'),
+ (103,2,'SE0000108656','BUY',   12000, 64.8800, TIMESTAMP '2026-06-08 10:02:05'),
+ (104,2,'SE0000242455','SELL',   8000,228.5000, TIMESTAMP '2026-06-08 10:15:40'),
+ (105,3,'US0378331005','BUY',    1500,196.2200, TIMESTAMP '2026-06-08 11:30:00'),
+ (106,4,'SE0000108656','SELL',   5000, 65.0100, TIMESTAMP '2026-06-08 13:12:31'),
+ (107,1,'SE0017832488','SELL',3000000, 98.5550, TIMESTAMP '2026-06-09 09:18:09'),
+ (108,5,'DE0001102580','BUY', 1000000,101.0950, TIMESTAMP '2026-06-09 09:55:23'),
+ (109,2,'SE0009554454','BUY',   20000, 26.4400, TIMESTAMP '2026-06-09 10:31:44'),
+ (110,3,'US0378331005','SELL',    900,197.8000, TIMESTAMP '2026-06-09 11:02:18'),
+ (111,4,'SE0000242455','BUY',    6000,227.9000, TIMESTAMP '2026-06-09 14:45:00'),
+ (112,5,'SE0017832488','BUY', 2000000, 98.6100, TIMESTAMP '2026-06-10 09:05:37'),
+ (113,2,'SE0000108656','BUY',    7000, 65.3300, TIMESTAMP '2026-06-10 09:48:12'),
+ (114,1,'DE0001102580','SELL',1500000,101.2400, TIMESTAMP '2026-06-10 10:20:55'),
+ (115,3,'SE0000242455','BUY',    4000,229.1000, TIMESTAMP '2026-06-10 11:11:11'),
+ (116,4,'SE0009554454','SELL',  10000, 26.6100, TIMESTAMP '2026-06-10 13:37:00'),
+ (117,5,'SE0017832488','SELL',1000000, NULL,    TIMESTAMP '2026-06-11 09:02:48'),
+ (118,2,'US0378331005','BUY',    1200, NULL,    TIMESTAMP '2026-06-11 09:30:15'),
+ (119,1,'SE0017832488','BUY', 4000000, 98.4800, TIMESTAMP '2026-06-11 10:06:29'),
+ (120,3,'SE0000108656','SELL',   3000, 65.4500, TIMESTAMP '2026-06-11 10:52:03'),
+ (121,4,'SE0000108656','BUY',    9000, 65.2000, TIMESTAMP '2026-06-11 14:08:46'),
+ (122,5,'DE0001102580','SELL', 500000,101.3100, TIMESTAMP '2026-06-12 09:14:22')`,
+];
