@@ -1,3 +1,5 @@
+import { DIAGRAMS } from "./diagrams";
+
 export interface Exercise {
   task: string;
   solution: string;
@@ -10,6 +12,8 @@ export interface Lesson {
   lvl: string;
   title: string;
   prose: string;
+  /** Inline SVG concept diagram rendered between prose and examples. */
+  diagram?: string;
   examples: [label: string, sql: string][];
   ex: Exercise | null;
   sandbox?: boolean;
@@ -105,6 +109,7 @@ export const LESSONS: Lesson[] = [
     title: "Joins: INNER, LEFT, ANTI",
     prose: `<p>A join combines rows from two tables where a condition holds, usually equality on a key. <code>INNER JOIN</code> keeps only matching pairs. <code>LEFT JOIN</code> keeps every row from the left table and fills the right side with NULL when there is no match.</p>
 <p>The seed data contains two deliberate gaps: trader David Ek has no trades, and instrument EIB FRN 2031 has never traded. An inner join hides them; a left join exposes them as NULL rows; filtering a left join on <code>right_key IS NULL</code> gives an anti-join ("rows in A with no match in B"). DuckDB also has a literal <code>ANTI JOIN</code> for this.</p>`,
+    diagram: DIAGRAMS.join,
     examples: [
       [
         "inner join",
@@ -132,6 +137,7 @@ export const LESSONS: Lesson[] = [
     title: "GROUP BY and HAVING",
     prose: `<p><code>GROUP BY</code> collapses rows that share the same key values into one row per group; aggregate functions (<code>count</code>, <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>) summarize each group. Every projected column must be either a grouping key or an aggregate.</p>
 <p><code>WHERE</code> filters rows before grouping; <code>HAVING</code> filters the groups afterwards, so it can reference aggregates. DuckDB's <code>GROUP BY ALL</code> groups by every non-aggregate column in the projection, which removes a common source of copy errors.</p>`,
+    diagram: DIAGRAMS.group,
     examples: [
       [
         "per instrument",
@@ -186,6 +192,7 @@ export const LESSONS: Lesson[] = [
     title: "Window functions",
     prose: `<p>A window function computes a value per row over a related set of rows (the window) without collapsing them, unlike <code>GROUP BY</code>. <code>OVER (PARTITION BY ... ORDER BY ...)</code> defines the window: partitioning splits rows into groups, ordering defines position within each group.</p>
 <p><code>row_number()</code>, <code>rank()</code> and <code>dense_rank()</code> number rows; <code>lag()</code> and <code>lead()</code> read neighboring rows; aggregates with an <code>ORDER BY</code> in the window become running totals. DuckDB's <code>QUALIFY</code> clause filters on window results directly, where standard SQL needs a wrapping subquery.</p>`,
+    diagram: DIAGRAMS.window,
     examples: [
       [
         "running notional",
@@ -213,6 +220,7 @@ export const LESSONS: Lesson[] = [
     title: "Set operations and grouping sets",
     prose: `<p><code>UNION</code> stacks results and removes duplicates; <code>UNION ALL</code> keeps them and is cheaper. <code>INTERSECT</code> and <code>EXCEPT</code> return common rows and differences. Column counts must match; DuckDB's <code>UNION ALL BY NAME</code> aligns columns by name instead of position.</p>
 <p><code>GROUPING SETS</code>, <code>ROLLUP</code> and <code>CUBE</code> compute several <code>GROUP BY</code> levels in one statement. <code>ROLLUP (a, b)</code> produces groups for (a, b), (a) and the grand total; subtotal rows show NULL in the rolled-up columns.</p>`,
+    diagram: DIAGRAMS.setops,
     examples: [
       [
         "except",

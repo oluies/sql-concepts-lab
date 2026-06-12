@@ -41,6 +41,7 @@ function show(id: string): void {
     <div class="lvl">${L.grp} · ${L.lvl}</div>
     <h2>${L.title}</h2>
     <div class="prose">${L.prose}</div>
+    ${L.diagram ? `<figure class="diagram">${L.diagram}</figure>` : ""}
     <div class="chips">${L.examples
       .map((e, i) => `<button class="chip" data-i="${i}">${esc(e[0])}</button>`)
       .join("")}</div>
