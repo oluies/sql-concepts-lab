@@ -42,6 +42,10 @@ src/seed.ts           sample dataset DDL/DML
 src/style.css         styling
 ```
 
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the component overview, startup and
+query-execution flows, the sample data model, and the build/deploy pipeline —
+all with Mermaid diagrams.
+
 ## Privacy
 
 The site uses [GoatCounter](https://www.goatcounter.com) for anonymous, privacy-respecting usage counts, configured in `src/analytics.ts`:
