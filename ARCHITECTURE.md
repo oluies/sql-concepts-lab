@@ -82,7 +82,7 @@ sequenceDiagram
   M->>A: initAnalytics()
   Note over A: no-op if DNT/GPC set<br/>or no GoatCounter code
   M->>M: buildNav() + show("select")
-  Note over M: lessons render at once;<br/>Run/Check disabled
+  Note over M: lessons render at once,<br/>Run/Check disabled
   M->>D: boot()
   D->>D: selectBundle(MVP / EH)
   D->>W: new Worker + instantiate(.wasm)
