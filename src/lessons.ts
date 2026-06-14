@@ -277,6 +277,8 @@ export const LESSONS: Lesson[] = [
 <tr><td>Quoted identifier</td><td><code>[name]</code></td><td><code>"name"</code></td><td><code>"name"</code></td></tr>
 <tr><td>Current time</td><td><code>GETDATE()</code></td><td><code>CURRENT_TIMESTAMP</code></td><td><code>CURRENT_TIMESTAMP</code></td></tr>
 <tr><td>Lateral join</td><td><code>CROSS APPLY</code></td><td><code>LATERAL</code></td><td><code>LATERAL</code></td></tr>
+<tr><td>Anti-join</td><td><code>NOT EXISTS (…)</code></td><td><code>NOT EXISTS (…)</code></td><td><code>ANTI JOIN</code></td></tr>
+<tr><td>Semi-join</td><td><code>EXISTS (…)</code></td><td><code>EXISTS (…)</code></td><td><code>SEMI JOIN</code></td></tr>
 <tr><td>Booleans</td><td><code>BIT</code> (0/1)</td><td><code>BOOLEAN</code></td><td><code>BOOLEAN</code></td></tr>
 </tbody>
 </table>
