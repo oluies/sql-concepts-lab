@@ -17,7 +17,7 @@
  * to your subdomain (the "CODE" in https://CODE.goatcounter.com).
  */
 
-const GOATCOUNTER_CODE = ""; // e.g. "sql-concepts-lab"
+const GOATCOUNTER_CODE = "oluies"; // https://oluies.goatcounter.com
 
 interface Hit {
   path: string;
