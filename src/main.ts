@@ -1,6 +1,7 @@
 import "./style.css";
 import { LESSONS, type Lesson } from "./lessons";
 import { boot, exec, seed, type QueryResult } from "./db";
+import { initAnalytics, trackPage, trackEvent } from "./analytics";
 
 let engineReady = false;
 let current: Lesson | null = null;
@@ -33,6 +34,7 @@ function buildNav(): void {
 function show(id: string): void {
   current = LESSONS.find((l) => l.id === id) ?? LESSONS[0];
   const L = current;
+  trackPage(`/lesson/${L.id}`, L.title);
   nav
     .querySelectorAll("button")
     .forEach((b) => b.classList.toggle("active", b.dataset.id === id));
@@ -132,6 +134,7 @@ async function runEditor(): Promise<void> {
   try {
     const { cols, rows } = await exec(sql);
     const ms = (performance.now() - t0).toFixed(1);
+    trackEvent("run-query");
     if (cols.length === 2 && cols[0] === "explain_key") {
       out(
         `<div class="meta">plan · ${ms} ms</div><pre class="plan">${esc(rows.map((r) => r[1] ?? "").join("\n"))}</pre>`,
@@ -168,6 +171,7 @@ async function checkExercise(): Promise<void> {
     const want = await exec(L.ex.solution);
     if (canon(got, L.ex.ordered) === canon(want, L.ex.ordered)) {
       v.innerHTML = `<div class="pass">Correct — result matches.</div>`;
+      trackEvent("exercise-pass");
     } else {
       v.innerHTML = `<div class="fail">Not yet. Got ${got.rows.length} row(s) with columns (${got.cols.join(", ")}); expected ${want.rows.length} row(s) with columns (${want.cols.join(", ")}). Run your query above to inspect the output.</div>`;
     }
@@ -210,6 +214,7 @@ async function refreshSchemaCards(): Promise<void> {
   }
 }
 
+initAnalytics();
 buildNav();
 show("select");
 
