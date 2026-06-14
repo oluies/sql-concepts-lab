@@ -16,7 +16,7 @@ graph TD
       MAIN["main.ts<br/>UI controller"]
       LESSONS["lessons.ts<br/>content + exercises"]
       DIAGRAMS["diagrams.ts<br/>inline SVG concepts"]
-      STYLE["style.css"]
+      STYLECSS["style.css"]
       DB["db.ts<br/>engine facade"]
       SEED["seed.ts<br/>trading-book DDL/DML"]
       ANALYTICS["analytics.ts<br/>GoatCounter, opt-out aware"]
@@ -52,13 +52,13 @@ materialization. Everything else is data (`lessons.ts`, `seed.ts`,
 
 ```mermaid
 graph LR
-  main["main.ts"] --> style["style.css"]
-  main --> lessons["lessons.ts"]
-  main --> db["db.ts"]
-  main --> analytics["analytics.ts"]
-  lessons --> diagrams["diagrams.ts"]
-  db --> seed["seed.ts"]
-  db --> duckdb["@duckdb/duckdb-wasm"]
+  mainTs["main.ts"] --> styleCss["style.css"]
+  mainTs --> lessonsTs["lessons.ts"]
+  mainTs --> dbTs["db.ts"]
+  mainTs --> analyticsTs["analytics.ts"]
+  lessonsTs --> diagramsTs["diagrams.ts"]
+  dbTs --> seedTs["seed.ts"]
+  dbTs --> duckdbPkg["@duckdb/duckdb-wasm"]
 ```
 
 The graph is acyclic and shallow: `main.ts` is the single composition root, the
