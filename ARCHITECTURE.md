@@ -52,13 +52,13 @@ materialization. Everything else is data (`lessons.ts`, `seed.ts`,
 
 ```mermaid
 graph LR
-  main.ts --> style.css
-  main.ts --> lessons.ts
-  main.ts --> db.ts
-  main.ts --> analytics.ts
-  lessons.ts --> diagrams.ts
-  db.ts --> seed.ts
-  db.ts --> duckdb["@duckdb/duckdb-wasm"]
+  main["main.ts"] --> style["style.css"]
+  main --> lessons["lessons.ts"]
+  main --> db["db.ts"]
+  main --> analytics["analytics.ts"]
+  lessons --> diagrams["diagrams.ts"]
+  db --> seed["seed.ts"]
+  db --> duckdb["@duckdb/duckdb-wasm"]
 ```
 
 The graph is acyclic and shallow: `main.ts` is the single composition root, the
