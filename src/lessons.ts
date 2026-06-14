@@ -262,6 +262,47 @@ export const LESSONS: Lesson[] = [
     ex: null,
   },
   {
+    id: "dialects",
+    grp: "Advanced",
+    lvl: "Advanced",
+    title: "Dialects: T-SQL vs DuckDB vs standard",
+    prose: `<p>There is one ISO standard for SQL (ISO/IEC 9075), but no engine implements all of it and every product adds its own extensions — so real SQL is always "the standard plus a dialect". The core you have used in these lessons (<code>SELECT</code>/<code>WHERE</code>, joins, <code>GROUP BY</code>, CTEs, window functions, set operations) is standard and portable. The differences bite at the edges.</p>
+<p><strong>DuckDB</strong> is Postgres-flavored and stays close to the standard, then layers on ergonomics — most of which earlier lessons flagged: <code>FROM</code>-first, <code>GROUP BY ALL</code>, <code>QUALIFY</code>, <code>UNION ALL BY NAME</code>, literal <code>ANTI JOIN</code>. <strong>T-SQL</strong> (SQL Server / Azure SQL) diverges the most: a different surface syntax <em>and</em> a procedural layer (<code>DECLARE</code>, <code>IF</code>/<code>WHILE</code>, <code>TRY/CATCH</code>, stored procedures), plus case-insensitive string comparison by default.</p>
+<table class="cmp">
+<thead><tr><th>Concept</th><th>T-SQL</th><th>Standard</th><th>DuckDB</th></tr></thead>
+<tbody>
+<tr><td>Top-N</td><td><code>SELECT TOP 3 …</code></td><td><code>FETCH FIRST 3 ROWS ONLY</code></td><td><code>LIMIT 3</code></td></tr>
+<tr><td>String concat</td><td><code>a + b</code></td><td><code>a || b</code></td><td><code>a || b</code></td></tr>
+<tr><td>NULL fallback</td><td><code>ISNULL(x, 0)</code></td><td><code>COALESCE(x, 0)</code></td><td><code>COALESCE(x, 0)</code></td></tr>
+<tr><td>Quoted identifier</td><td><code>[name]</code></td><td><code>"name"</code></td><td><code>"name"</code></td></tr>
+<tr><td>Current time</td><td><code>GETDATE()</code></td><td><code>CURRENT_TIMESTAMP</code></td><td><code>CURRENT_TIMESTAMP</code></td></tr>
+<tr><td>Lateral join</td><td><code>CROSS APPLY</code></td><td><code>LATERAL</code></td><td><code>LATERAL</code></td></tr>
+<tr><td>Booleans</td><td><code>BIT</code> (0/1)</td><td><code>BOOLEAN</code></td><td><code>BOOLEAN</code></td></tr>
+</tbody>
+</table>
+<p class="note">The examples below run here because DuckDB accepts both the portable standard form and its own shorthand. The T-SQL column is what a SQL Server author would write instead — paste <code>SELECT TOP 3 *</code> and DuckDB will reject it.</p>`,
+    examples: [
+      [
+        "top-N, standard form",
+        "SELECT trade_id, quantity\nFROM trades\nORDER BY quantity DESC\nFETCH FIRST 5 ROWS ONLY",
+      ],
+      [
+        "top-N, DuckDB shorthand",
+        "SELECT trade_id, quantity\nFROM trades\nORDER BY quantity DESC\nLIMIT 5",
+      ],
+      [
+        "concat ||, coalesce, boolean",
+        "SELECT tr.name || ' / ' || tr.desk AS label,\n       coalesce(t.price, 0) AS price_or_zero,\n       t.price IS NULL AS pending\nFROM trades t\nJOIN traders tr USING (trader_id)\nORDER BY t.trade_id\nLIMIT 8",
+      ],
+    ],
+    ex: {
+      task: "Return the 3 most recently traded instruments' trades — trade_id and traded_at, newest first — using the standard FETCH FIRST … ROWS ONLY instead of LIMIT.",
+      solution:
+        "SELECT trade_id, traded_at FROM trades ORDER BY traded_at DESC FETCH FIRST 3 ROWS ONLY",
+      ordered: true,
+    },
+  },
+  {
     id: "sandbox",
     grp: "Sandbox",
     lvl: "All levels",

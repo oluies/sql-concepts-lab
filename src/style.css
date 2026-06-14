@@ -51,6 +51,11 @@ main{overflow-y:auto;padding:22px 26px 60px;min-width:0}
 .prose p{margin:10px 0}
 .prose code{font-family:var(--mono);font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
 .prose .note{border-left:3px solid var(--accent);padding:6px 12px;background:var(--surface);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.prose table.cmp{border-collapse:collapse;margin:14px 0;font-size:13px;max-width:100%}
+.prose table.cmp th,.prose table.cmp td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+.prose table.cmp th{background:var(--surface-2);color:var(--accent);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.prose table.cmp td:first-child{color:var(--text-dim)}
+.prose table.cmp code{background:var(--ink);white-space:nowrap}
 
 .diagram{margin:16px 0 0;max-width:740px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px 8px}
 .diagram svg{width:100%;height:auto;display:block}
