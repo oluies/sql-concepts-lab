@@ -13,7 +13,7 @@
     "@duckdb/duckdb-wasm": "^1.33.1-dev45.0"
   },
   "devDependencies": {
-    "typescript": "^6.0.3",
-    "vite": "^8.0.16"
+    "typescript": "^7.0.2",
+    "vite": "^8.1.4"
   }
 }
