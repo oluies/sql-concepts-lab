@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["before 6am on monday"],
+  "timezone": "Europe/Stockholm",
+  "packageRules": [
+    {
+      "description": "Was the npm ecosystem's dev-dependencies group in .github/dependabot.yml (dependency-type: development), weekly.",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "dev-dependencies"
+    },
+    {
+      "description": "Was the github-actions ecosystem: weekly. Grouped into one PR.",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    }
+  ]
+}
